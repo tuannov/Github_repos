@@ -1,5 +1,5 @@
 import requests
-
+import argparse
 
 def get_repos(username):
     url = f"https://api.github.com/users/{username}/repos"
@@ -16,7 +16,11 @@ def get_star_url(p):
 
 
 def main():
-    repos = get_repos("norvig")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('username', help='Enter username')
+    args = parser.parse_args()
+    
+    repos = get_repos(args.username)
     repos_has_stars = has_stars(repos)
     stars_urls = [get_star_url(p) for p in repos_has_stars]
     stars_urls.sort(reverse=True)
